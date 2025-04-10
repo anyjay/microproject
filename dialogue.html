@@ -1,0 +1,349 @@
+<!---->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <title>Econcup : Unit 2 Game</title>
+<style>
+    *{
+        margin:0;
+        padding: 0;
+        box-sizing: 0;
+        font-family: "Silkscreen", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    body{
+        display: flex;
+        flex-direction: column;
+        background-color: blue;
+        width: 100vw;
+        height: 100vh;
+        background-image: url("https://wallpapercave.com/wp/wp12749759.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    
+    .characters{
+        margin: 0;
+        padding:30px;
+        padding-bottom: 0;
+        display: flex;
+        flex:1;
+        height: auto;
+        height:80%;
+    }
+    #boss1, #boss2, #mc{
+        width:20%;
+        object-fit: contain;
+        align-self:end;
+    }
+    #boss2{
+        display: none;
+    }
+    #mc{
+        padding-right: 40%;
+        display: block;
+    }
+    .dialogue-box{
+        background-color: #161616;
+        width:100%;
+        height: 20%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .dialogue{
+       /*color: #ffcd4e;*/
+        color: #ffffff;
+        text-align: center;
+        padding:15px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    #quest-button{
+        display: none;
+    }
+    #next-dialogue{
+        display: block;
+        position: absolute;
+        right:15px;
+        bottom: 7%;
+        align-self: end;
+        width: 40px;
+    }
+    .darken-image {
+        filter: brightness(50%);
+    }
+     /*Splash Screen*/
+    
+     .intro{
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #161616;
+    transition: 1s;
+    }
+    
+    .logo-header{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        color: #ffffff;
+    }
+    .logo{
+        position: relative;
+        display: inline-block;
+        bottom: -20px;
+        opacity:0;
+    }
+    
+    .logo.active{
+        bottom:0;
+        opacity: 1;
+        transition: ease-in-out 0.5s;
+    
+    }
+    
+    .logo.fade{
+        bottom:150px;
+        opacity:0px;
+        transition: ease-in-out 0.5s;
+    }
+
+</style>
+</head>
+
+<body>
+    <div class="intro">
+        <h1 class="logo-header">
+            <span class="logo">Module 2.1 | </span><span class="logo">| Demand</span>
+        </h1>
+    </div> 
+
+   <div class="characters">
+            <img id="mc" src="images/mc1.png" alt="">
+            <img id="boss1" src="images/boss1_2.1_1.png" alt="">
+            <img id="boss2" src="images/mc3.png" alt="">
+   </div>
+
+   <div class="dialogue-box">
+    <p class="dialogue"></p>
+    <button id="next-dialogue">-></button>
+    <button id="quest-button">Start ?</button>
+   </div>
+
+
+   <script>
+    const dialogue = [
+        "Ah! Welcome, I'll be your first opponent. Here's the run down, answer my questions correctly and you can pass. If you keep on getting a question wrong, you'll have to take a break. Time spent on dialogue will not contribute towards your final time. Don't fret and do your best!",
+        "...",
+        "... Oh! I'm covering Mod. 2.1, Demand. Each Mod boss will also give you a review of key points in their Mod that you should probably jot down (Take your time, only time spent answering questions is timed.)",
+        "Here are Mod 2.1 Key Points: Demand schedule, Factors that shift the demand curve, Law of Demand, &  movements along a demand curve(change in quantity demanded) VS. changes in demand(shift of demand curve). That's all I guess. Let's start!",
+        "EXIT",
+        "About time, I'm Mod 2.2, Supply, Darcy must've explained everything, so let's jump right into it. Good luck!",
+        "...",
+        "EXIT",
+        "Howdy, I'm Mod Boss 2.3, Price Elasticity of Demand",
+        "And I'm Mod Boss 2.4, Price Elasticity of Supply",
+        "Well, I demand we start curve we're on a tight time budget ,':)",
+        "...",
+        "...",
+        "...",
+        "Hey Dimas.",
+        "Yeah?",
+        "Dimenos.",
+        "T-T",
+        "EXIT",
+        "",
+        ""
+    ];
+
+    const character = [
+        "START:images/boss1_2.1_1.png:images/mc1.png", //set up character images
+        "images/mc2.png", //change this one
+        "images/boss1_2.1_2.png",
+        "images/boss1_2.1_1.png",
+        "EXIT",
+        "START:images/boss1_2.2_1.png:images/mc1.png",
+        "images/mc2.png",
+        "EXIT",
+        "START:images/boss1_2.3_1.png:boss2_2.4_1:images/mc1.png",
+        "images/boss2_2.4_1",
+    ];
+
+   //Steff's code:
+        const urlParams = new URLSearchParams(window.location.search);
+        let current_index = urlParams.get("index") || 0;
+        const quest_button = document.getElementById("quest-button");
+        let time = urlParams.get("time");
+        let character_index = urlParams.get("character_index") || 0;
+        quest_button.addEventListener('click', function(event){
+            window.location.href = `questions.html?index=${current_index}&time=${time}&character_index=${character_index}`;
+        });
+        if (urlParams != ""){
+            current_index = urlParams.get("index");
+            time = urlParams.get("time");
+            character_index = urlParams.get("character_index");
+        }
+
+        setInterval(function(){
+            time++
+            console.log(time);
+        }, 1000);
+
+    function showDialogue(){
+        if(character_index < dialogue.length){
+            const string = dialogue[character_index];
+
+            if(string === "EXIT"){
+                document.getElementById("quest-button").style.display = "block";
+                document.getElementById("next-dialogue").style.display = "none"
+            }else{
+                showCharacter();
+                const newText = document.querySelector(".dialogue");
+                newText.textContent = string;
+            }
+            character_index++; 
+        }
+    }
+       //End of Steff's code
+
+    function showCharacter(){
+        if(character_index < dialogue.length){
+            const string = character[character_index];
+
+            if(string === "EXIT"){
+                return; // Do nothing if it's EXIT
+            } else if (string.includes("START")) {
+                let images = string.split(":");
+                images.splice(0, 1); // Remove 'START' from the array
+
+                if (images.length === 3) {
+                    document.getElementById("boss2").style.display = "block";
+                    document.getElementById("mc").style.paddingRight = "20%";
+                    highlight(images[0]);
+                    images.forEach(element => {
+                        if(element.includes("mc")) {
+                            document.getElementById("mc").classList.remove('darken-image');
+                        } else if(element.includes("boss1")) {
+                            document.getElementById("boss1").classList.remove('darken-image');
+                        } else {
+                            document.getElementById("boss2").classList.remove('darken-image');
+                        }
+                    });
+                } else {
+                    document.getElementById("boss2").style.display = "none";
+                    document.getElementById("mc").style.paddingRight = "60%";
+                    highlight(images[0]);
+                }
+
+            } else {
+                highlight(string);
+                changeImage(string);
+            }
+        }
+    }
+
+
+
+    let id = "";
+
+    function highlight(str){
+        if(str.includes("mc")) {
+            const char = document.getElementById('mc');
+            const other = document.getElementById('boss1');
+            const other1 = document.getElementById('boss2');
+            char.classList.remove('darken-image');
+            other.classList.add('darken-image');
+            other1.classList.add('darken-image');
+            id = "mc";
+        } else if(str.includes("boss1")) {
+            const char = document.getElementById('boss1');
+            const other = document.getElementById('mc');
+            const other1 = document.getElementById('boss2');
+            char.classList.remove('darken-image');
+            other.classList.add('darken-image');
+            other1.classList.add('darken-image');
+            id = "boss1";
+        } else {
+            const char = document.getElementById('boss2');
+            const other = document.getElementById('mc');
+            const other1 = document.getElementById('boss1');
+            char.classList.remove('darken-image');
+            other.classList.add('darken-image');
+            other1.classList.add('darken-image');
+            id = "boss2";
+        }
+    }
+
+    function changeImage(newImagePath) {
+        const imgElement = document.getElementById(id);
+        imgElement.src = newImagePath;
+    }
+
+    //Splash Scene
+    let intro = document.querySelector('.intro');
+let logo = document.querySelector('.logo-header');
+let logoSpan = document.querySelectorAll('.logo');
+
+window.addEventListener('DOMContentLoaded',()=>{
+
+    setTimeout(()=>{
+
+    logoSpan.forEach((span, idx)=>{
+        setTimeout(()=>{
+            span.classList.add('active');
+        }, (idx + 1) *700)
+    });
+
+    setTimeout(()=>{
+        logoSpan.forEach((span, idx)=>{
+
+            setTimeout(()=>{
+                span.classList.remove('active');
+                span.classList.add('fade');
+            }, (idx+1)*50)
+        })
+    }, 2700);
+    
+    setTimeout(()=>{
+        intro.style.top='-100vh';
+    }, 2600)
+
+})
+
+});
+
+
+    /*function shade(){
+        const mc = document.getElementById('mc');
+        const b1 = document.getElementById('boss1');
+        const b2 = document.getElementById('boss2');
+        mc.classList.add('darken-image');
+        b1.classList.add('darken-image');
+        b2.classList.add('darken-image');
+    }*/
+
+    //shade();
+    showCharacter();
+    showDialogue();
+
+    document.getElementById("next-dialogue").addEventListener("click", () => {
+        showCharacter();
+        showDialogue();
+       // shade();
+    });
+
+   </script>
+</body>
+</html>
