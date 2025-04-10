@@ -77,10 +77,57 @@ background-color: #d3e5f6;
 padding-bottom:2%;
 }
 
+
+    
+    /*Splash Screen*/
+    
+    .intro{
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #161616;
+    transition: 1s;
+    }
+    
+    .logo-header{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        color: #ffffff;
+    }
+    .logo{
+        position: relative;
+        display: inline-block;
+        bottom: -20px;
+        opacity:0;
+    }
+    
+    .logo.active{
+        bottom:0;
+        opacity: 1;
+        transition: ease-in-out 0.5s;
+    
+    }
+    
+    .logo.fade{
+        bottom:150px;
+        opacity:0px;
+        transition: ease-in-out 0.5s;
+    }
+
 </style>
 </head>
 <body>
-<img src="images-steff/stickman-1.png" alt="">
+    <div class="intro">
+        <h1 class="logo-header">
+            <span class="logo">Quest</span><span class="logo">ions</span>
+        </h1>
+    </div> 
+<img src="images/thinking.gif" alt="">
 <div class="question-box">
 
 <p id = "question"></p>
@@ -92,7 +139,7 @@ padding-bottom:2%;
 <input type="button" id = "next">
 </div>
 <div class="boss">
-<img src="images-steff/stickman-1.png" alt="">
+<img src="images/key.gif" alt="">
 </div>
 <script>
 let current_index=0;
@@ -106,43 +153,146 @@ character_index = urlParams.get("character_index")
 }
 let total_wrongs = 0;
 let questions = [
-"What is the capital of France?",
-"Who wrote 'To Kill a Mockingbird'?",
-"What is the chemical symbol for water?",
-"Which planet is known as the Red Planet?",
-"What is the largest mammal on Earth?",
-"What is the hardest natural substance on Earth?",
-"What is the square root of 144?",
-"Who painted the Mona Lisa?",
-"What is the main ingredient in guacamole?",
-"What is the smallest country in the world?"
+"What is willingness to pay?",
+"What causes movement along the demand curve?",
+"What is one of the factors of demand?",
+"What is the Law of Supply?",
+"What is the market supply curve?",
+"What is one of the Factors of Supply?",
+"When demand is elastic, a higher price...",
+"What's a determinent of Demand Elasticity?",
+"What's a determinent of Supply Elasticity?",
+"When cross-price elasticity is negative, the goods are ______, when it is positive, the goods are_____, when it is 0, the goods are____?",
+"When income elasticity is negative, the good is_______, when it's positive, the good is_______", 
+"The equation of income elasticity of demand is...",
+"Where is producer surplus?",
+"Where is consumer Surplus?",
+"Which isn't equlibrium in a perfectly competitive market?",
+
+"",
+"",
+"",
+
+"What are the administrative costs to a tax?",
+"An excise tax on suppliers will move the ________ curve with the tax, ______",
+"What is a price ceiling?",
+
+"What are tariffs?",
+"True or False: With a quota, tax revenue is collected",
+"If the world equilibrium price is over the domestic price, what will happen?",
+
+"If the government sets a price floor above the equilibrium price of a good, what will happen?",
+"Abba imports coffee beens from Cabba. If Abba imposes a tariff on coffee beans, all of the following will occur, other than?",
+"If a perfectly competitive market is at equilibrium where Price = $40, Quantity = 200 units, and ther supply curve intersects the y axis at $10, and the demand at $80, what is producer surplus?"
 ];
 
 let choices = [
-"A. Berlin<br><br>B. Madrid<br><br>C. Paris<br><br>D. Rome",
-"A. George Orwell<br><br>B. Harper Lee<br><br>C. Mark Twain<br><br>D. J.K. Rowling",
-"A. H2O<br><br>B. O2<br><br>C. CO2<br><br>D. N2",
-"A. Venus<br><br>B. Mars<br><br>C. Jupiter<br><br>D. Saturn",
-"A. Blue whale<br><br>B. Elephant<br><br>C. Giraffe<br><br>D. Shark",
-"A. Diamond<br><br>B. Gold<br><br>C. Iron<br><br>D. Platinum",
-"A. 10<br><br>B. 12<br><br>C. 14<br><br>D. 16",
-"A. Pablo Picasso<br><br>B. Vincent van Gogh<br><br>C. Claude Monet<br><br>D. Leonardo da Vinci",
-"A. Avocado<br><br>B. Tomato<br><br>C. Onion<br><br>D. Garlic",
-"A. Monaco<br><br>B. Vatican City<br><br>C. Nauru<br><br>D. San Marino"
+"A. the min. price at which a consumer would buy a good<br><br>B. the max. price at which the producer is willing to sell<br><br>C. market-clearing price<br><br>D. the maximum price at which a consumer would buy a good",
+"A. Changes in tastes<br><br>B. A change in price<br><br>C. A change in income<br><br>D. A change in consumer surplus",
+"A. Changes in expectations<br><br>B. Changes in the number of producers<br><br>C. Changes in the price of inferior goods<br><br>D. There are 5 of them",
+"A. Positive slope, all things equal<br><br>B. All things equal, higher price, producers produce more <br><br>C. All things equal, lower price, the less consumers buy<br><br>D. All things equal, the higher the price, the lower producers produce",
+"A. At any given price, quantity supplied bu market is the sum of the quantities supplied by all producers<br><br>B. Demand schedule<br><br>C. At any given price, the sum of all consumers demand schedules is the quantity demanded<br><br>D. Supply schedule",
+"A. changes in output prices<br><br>B. changes in price of related goods<br><br>C. changes in the number of consumers<br><br>D. changes in price",
+"A. increases total revenue<br><br>B. reduces total revenue<br><br>C. reduces total costs<br><br>D. increases profits",
+"A. Availability of Inputs<br><br>B. Substitutability of Inputs<br><br>C. Existing Inventory<br><br>D. Availability of Close Substitutes",
+"A. Excess Capacity<br><br>B.Share of Income Spent on the Good<br><br>C. Whether the Good is Luxury or Necesity<br><br>D. Space",
+"A. substitutes, complements, unrelated<br><br>B. complements, substitutes, unrelated<br><br>C. unrelated, substitutes, complements <br><br>D. substitutes, unrelated, complements",
+"A. a normal good, an inferior good <br><br>B. a substitute, a complement<br><br>C. an inferior good, a normal good<br><br>D. a complement, a substitute",
+"A. % change in quantity demanded/ % change in income<br><br>B. % change in income/% change in quantity demanded<br><br>C. % change in quantity of A demanded/% change in price of B<br><br>D. % change in price of A/%change in quantity demanded of B",
+
+"A. Below the price, above the supply curve<br><br>B.Above the supply curve, below the price<br><br>C. Above the demand curve, below the price. <br><br>D. Below the demand curve, above the price.",
+"A. Below the price, above the supply curve<br><br>B.Above the supply curve, below the price<br><br>C. Above the demand curve, below the price. <br><br>D. Below the demand curve, above the price.",
+"A. MSB=MSC<br><br>B.Where the MR = MC<br><br>C. the intersection of the supply & Demand curve<br><br>D. At a profitable price",
+
+"A. Space<br><br>B.Space<br><br>C. Space <br><br>D. Space",
+"A. Space<br><br>B.Space<br><br>C. Space <br><br>D. Space",
+"A. Space<br><br>B.Space<br><br>C. Space <br><br>D. Space",
+
+"A. The resources used by governments to collect the tax and taxpayers to pay/evade the tax<br><br>B.Costs that a job incurs<br><br>C. The actual cost of the tax <br><br>D. Total costs",
+"A. demand, upwards<br><br>B.demand, downwards<br><br>C. supply, upwards <br><br>D. supply, downwards",
+"A. The minimum price buyers are required to pay for a good or service<br><br>B.The maximum price at which sellers are required to pay for a good or service<br><br>C. The maximum price at which sellers are required to charge for a good or service <br><br>D. The maximum amount of profit you can make",
+
+"A. Taxes on exports<br><br>B.Taxes on imports<br><br>C. Subsidies on imports <br><br>D. Subsidies on exports",
+"A. True<br><br>B.False<br><br>C. Depends on the circumstances <br><br>D. Not enough info is given",
+"A. International producers will bring their price down<br><br>B.Domestic producers will export goods<br><br>C. Domestic producers will import goods <br><br>D. Domestic producers will bring their price even lower to get more profits",
+
+"A. There will be a shortage<br><br>B.There will be a surplus<br><br>C. At the quantity of the good exchanged, the marginal cost is greater than the marginal benefit which causes deadweight loss <br><br>D. Since the price floor is set above the equilibrium price, nothing will happen",
+"A. Domestic producer surplus will increase<br><br>B.Deadweight loss will occur<br><br>C. Domestic consumer surplus will decrease <br><br>D. Efficiency will increase as suppliers will supply more",
+"A. $1,500<br><br>B.$2,000<br><br>C. $3,000 <br><br>D. $6,000"
+
 ];
 
 let answers = [
-"C", // Paris
-"B", // Harper Lee
-"A", // H2O
-"B", // Mars
-"A", // Blue whale
-"A", // Diamond
-"B", // 12
-"D", // Leonardo da Vinci
-"A", // Avocado
-"B" // Vatican City
+"D", // what is max. price
+"B", // a change in price
+"A", // changes in expectations
+"B", // Law of Supply
+"A", // Supply Curve
+"B", // Factors of Supply
+"B", // Elasticity of Demand
+"D", // Determinants of Demand Elasticity
+"A", // Deter. of Supply Elasticity
+"B", // X-price
+"C", // Income elasticity
+"A", // Income Elasticity
+
+"D", //producer sur
+"A", // consumer sur
+"D", // eq
+
+"", //
+"", //
+"", //
+
+"A",
+"C",
+"C",
+
+"B",
+"B",
+"B",
+
+"B",
+"D",
+"A"
+
 ];
+
+//Splash Scene:
+let intro = document.querySelector('.intro');
+let logo = document.querySelector('.logo-header');
+let logoSpan = document.querySelectorAll('.logo');
+
+window.addEventListener('DOMContentLoaded',()=>{
+
+    setTimeout(()=>{
+
+    logoSpan.forEach((span, idx)=>{
+        setTimeout(()=>{
+            span.classList.add('active');
+        }, (idx + 1) *700)
+    });
+
+    setTimeout(()=>{
+        logoSpan.forEach((span, idx)=>{
+
+            setTimeout(()=>{
+                span.classList.remove('active');
+                span.classList.add('fade');
+            }, (idx+1)*50)
+        })
+    }, 2700);
+    
+    setTimeout(()=>{
+        intro.style.top='-100vh';
+    }, 2600)
+
+})
+
+})
+//Splash Scene Code End
+
+
 
 const question_container = document.getElementById("question");
 const choices_container = document.getElementById("choices");
